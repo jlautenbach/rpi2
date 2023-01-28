@@ -1,7 +1,15 @@
-  - name: Configure IPsec connection
-    command: ipsec auto --add <connection_name>
-    args:
-      creates: /etc/ipsec.d/<connection_name>.conf
+- name: Install strongSwan
+  apt: name=strongswan state=installed
 
-  - name: Start IPsec connection
-    command: ipsec auto --up <connection_name>
+- name: Configure strongSwan
+  template:
+    src: ipsec.conf.j2
+    dest: /etc/ipsec.conf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Start strongSwan
+  service:
+    name: strongswan
+    state: started
