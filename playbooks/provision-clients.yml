@@ -1,0 +1,10 @@
+  - name: Update package manager
+    package_manager:
+      update_cache: yes
+
+  - name: Install required packages
+    package:
+      name:
+      - ipsec-tools
+      - rsync
+      state: present
