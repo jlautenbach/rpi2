@@ -8,3 +8,7 @@
       - ipsec-tools
       - rsync
       state: present
+      
+  - name: Set a hostname
+    ansible.builtin.hostname:
+      name: rpi-test1
