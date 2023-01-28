@@ -1,0 +1,13 @@
+- name: Gather hostname and WAN IP
+  command: |
+    hostname=$(hostname)
+    wan_ip=$(curl -s http://checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//')
+    echo "hostname: $hostname" > /tmp/host_info.txt
+    echo "wan_ip: $wan_ip" >> /tmp/host_info.txt
+
+- name: Send hostname and WAN IP to remote server
+  synchronize:
+    src: /tmp/host_info.txt
+    dest: /path/on/remote/server
+    remote_user: remote_user
+    private_key: /path/to/private/key
