@@ -1,0 +1,7 @@
+  - name: Configure IPsec connection
+    command: ipsec auto --add <connection_name>
+    args:
+      creates: /etc/ipsec.d/<connection_name>.conf
+
+  - name: Start IPsec connection
+    command: ipsec auto --up <connection_name>
