@@ -1,6 +1,13 @@
   - name: Update package manager
     package_manager:
       update_cache: yes
+      
+    
+  - name: Upgrade all packages
+    apt: upgrade=dist
+
+  - name: Clean up package manager
+    apt: autoremove=yes      
 
   - name: Install required packages
     package:
@@ -8,7 +15,13 @@
       - ipsec-tools
       - rsync
       state: present
-      
+
+  - name: Install required packages
+    apt: name={{ item }} state=installed
+    with_items:
+      - ipsec-tools
+      - rsync
+
   - name: Set a hostname
-    ansible.builtin.hostname:
-      name: rpi-test1
+      ansible.builtin.hostname:
+        name: rpi-test1
