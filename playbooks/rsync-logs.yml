@@ -1,1 +1,7 @@
-
+  - name: Rsync log remotely
+    synchronize:
+      src: /var/log/
+      dest: /var/log/com
+      remote_src: yes
+      rsync_opts:
+        - "-avz"
