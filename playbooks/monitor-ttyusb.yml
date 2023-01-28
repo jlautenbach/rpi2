@@ -1,0 +1,37 @@
+- name: Install serialport-list package
+  package:
+    name: serialport-list
+    state: present
+
+- name: Get list of serial ports
+  command: serialport-list
+  register: serial_ports
+
+- name: Print serial ports
+  debug:
+    var: serial_ports
+
+- name: Check for device
+  shell: "dmesg | grep -i 'pl2303' | tail -n 1 | awk '{print $NF}'"
+  register: device_path
+
+- name: Print device path
+  debug:
+    var: device_path
+
+- name: Install logging daemon
+  package:
+    name: log-daemon
+    state: present
+
+- name: Configure logging daemon
+  template:
+    src: log-daemon.conf.j2
+    dest: /etc/log-daemon.conf
+  vars:
+    device_path: "{{ device_path.stdout }}"
+
+- name: Start logging daemon
+  service:
+    name: log-daemon
+    state: started
